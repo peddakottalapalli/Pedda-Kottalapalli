@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#143b2e" />
+    <title>Community dashboard | Pedda Kottalapalli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body class="dashboard-page">
+    <header class="dashboard-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">PK</span>
+        <span class="brand-copy"
+          ><strong>PEDDA KOTTALAPALLI</strong
+          ><small>COMMUNITY DASHBOARD</small></span
+        >
+      </a>
+      <a class="button button-outline dashboard-back" href="index.html"
+        >← View website</a
+      >
+    </header>
+
+    <main class="dashboard-main">
+      <section class="dashboard-intro">
+        <p class="section-label">PRIVATE WORKSPACE</p>
+        <h1>Community <em>dashboard.</em></h1>
+        <p>
+          Admins manage published sections and review contributions. Visitors
+          may create an account to track their own submissions.
+        </p>
+      </section>
+
+      <section class="dashboard-card" id="auth-card">
+        <div class="dashboard-card-heading">
+          <div>
+            <p class="section-label">SIGN IN</p>
+            <h2>Welcome back.</h2>
+          </div>
+        </div>
+        <p id="setup-notice" class="notice" hidden>
+          Connect your Supabase project first. Follow the setup steps in
+          README.txt.
+        </p>
+        <form id="auth-form" class="dashboard-form">
+          <label
+            >Email address<input
+              id="auth-email"
+              type="email"
+              autocomplete="email"
+              required
+          /></label>
+          <label
+            >Password<input
+              id="auth-password"
+              type="password"
+              autocomplete="current-password"
+              minlength="8"
+              required
+          /></label>
+          <div class="form-actions">
+            <button
+              class="button button-gold"
+              type="submit"
+              name="auth-action"
+              value="signin"
+            >
+              Sign in
+            </button>
+            <button
+              class="button button-outline dark-outline"
+              type="button"
+              id="signup-button"
+            >
+              Create visitor account
+            </button>
+            <button
+              class="button button-outline dark-outline"
+              type="button"
+              id="guest-button"
+            >
+              Continue as guest
+            </button>
+          </div>
+        </form>
+        <p class="form-hint">
+          Visitor accounts are optional. Sign in to see your submissions. Admin
+          access is granted separately in Supabase—creating an account never
+          grants admin rights.
+        </p>
+        <p
+          id="auth-message"
+          class="status-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </section>
+
+      <section id="workspace" hidden>
+        <div class="workspace-top dashboard-card">
+          <div>
+            <p class="section-label">SIGNED IN</p>
+            <h2 id="user-label"></h2>
+            <p id="role-label" class="form-hint"></p>
+          </div>
+          <button
+            class="button button-outline dark-outline"
+            id="signout-button"
+            type="button"
+          >
+            Sign out
+          </button>
+        </div>
+
+        <section class="dashboard-card" id="section-manager" hidden>
+          <div class="dashboard-card-heading">
+            <div>
+              <p class="section-label">ADMIN · PAGE BUILDER</p>
+              <h2>Manage site sections.</h2>
+            </div>
+            <button
+              class="add-section-button"
+              id="add-section-button"
+              type="button"
+              aria-label="Add section"
+            >
+              ＋
+            </button>
+          </div>
+          <p class="form-hint">
+            Choose a layout, fill in the fields, and publish. The section
+            appears on the home page. Use an image URL or upload a photo/video
+            file.
+          </p>
+          <div id="section-list" class="section-list"></div>
+          <form id="section-form" class="dashboard-form section-editor" hidden>
+            <input id="section-id" type="hidden" />
+            <label
+              >Where should this appear?
+              <select id="section-target">
+                <option value="">Add a new section</option>
+                <option value="home">Replace the home / hero section</option>
+                <option value="about">Replace the About section</option>
+                <option value="heritage">Replace the Heritage section</option>
+                <option value="events">Replace the Events section</option>
+                <option value="facilities">
+                  Replace the Facilities section
+                </option>
+                <option value="gallery">Replace the Gallery section</option>
+                <option value="stories">Replace the Stories section</option>
+                <option value="testimonials">
+                  Replace the Testimonials section
+                </option>
+                <option value="map">Replace the Map section</option>
+                <option value="contact">Replace the Contact section</option>
+              </select>
+            </label>
+            <label
+              >Section type
+              <select id="section-type" required>
+                <option value="story">Story / about</option>
+                <option value="event">Event / announcement</option>
+                <option value="image">Photo feature</option>
+                <option value="video">Video feature</option>
+                <option value="notice">Notice / information</option>
+              </select>
+            </label>
+            <label
+              >Heading<input
+                id="section-title"
+                maxlength="100"
+                required
+                placeholder="e.g. Annual village festival"
+            /></label>
+            <label
+              >Short label<input
+                id="section-kicker"
+                maxlength="60"
+                placeholder="Optional small heading"
+            /></label>
+            <label
+              >Text<textarea
+                id="section-body"
+                rows="4"
+                maxlength="2000"
+                placeholder="Write the section content"
+              ></textarea>
+            </label>
+            <label
+              >Button label (optional)<input
+                id="section-button"
+                maxlength="40"
+                placeholder="e.g. Learn more"
+            /></label>
+            <label
+              >Button link (optional)<input
+                id="section-link"
+                type="url"
+                placeholder="https://... or #gallery"
+            /></label>
+            <label
+              >Media file (optional)<input
+                id="section-file"
+                type="file"
+                accept="image/*,video/mp4,video/webm,video/ogg"
+            /></label>
+            <label
+              >Or media URL (optional)<input
+                id="section-media-url"
+                type="url"
+                placeholder="https://..."
+            /></label>
+            <label class="check-row"
+              ><input id="section-published" type="checkbox" checked /> Publish
+              on the public website</label
+            >
+            <div class="form-actions">
+              <button class="button button-gold" type="submit">
+                Save section
+              </button>
+              <button
+                class="button button-outline dark-outline"
+                id="cancel-section-button"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+            <p
+              id="section-message"
+              class="status-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+
+        <section class="dashboard-card" id="contribution-manager">
+          <div class="dashboard-card-heading">
+            <div>
+              <p class="section-label" id="contribution-label">COMMUNITY</p>
+              <h2 id="contribution-heading">Share a photo or video.</h2>
+            </div>
+          </div>
+          <p class="form-hint" id="contribution-help">
+            Submissions are private until an admin reviews them. Sign in with an
+            account to check your submission status later; account creation is
+            optional.
+          </p>
+          <form id="contribution-form" class="dashboard-form">
+            <label
+              >Caption<input
+                id="contribution-caption"
+                maxlength="150"
+                required
+                placeholder="Describe this contribution"
+            /></label>
+            <label
+              >Photo or video<input
+                id="contribution-file"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/ogg"
+                required
+            /></label>
+            <button class="button button-gold" type="submit">
+              Submit for review
+            </button>
+            <p
+              id="contribution-message"
+              class="status-message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+          <div id="contribution-list" class="contribution-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>
